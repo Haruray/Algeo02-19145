@@ -44,3 +44,5 @@ def img_compress(filename,k):
 	#Saving pic
 	compressed_image = Image.fromarray(img_reconstruct.astype(np.uint8))
 	compressed_image.save("compressed.jpg")
+
+	return ((k * (img.size[0]+img.size[1])) / (img.size[0]*img.size[1])) * 100 * 3
