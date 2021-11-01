@@ -1,6 +1,7 @@
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 def compress_svd(img_mat,k):
 	#BAGIAN YANG DIKOMENTARI DIGANTI DENGAN ALGORITMA BUATAN SENDIRI
@@ -11,17 +12,23 @@ def compress_svd(img_mat,k):
 	"""
 	return reconst_mat
 
-def img_compress(filename,k):
+def percentage_convert(image, percentage):
+	return (percentage * (image.size[0]*image.size[1])) / (300 * (image.size[0] + image.size[1]))
+
+def img_compress(filename,percentage):
 	"""
 	FUNGSI UTAMA UNTUK ME-COMPRESS GAMBAR
 	Input filename : berisi file gambar (contoh.jpg). Untuk pengaturan path nya belum dikerjakan sehingga gambar harus ditaruh di
 	directory yang sama dengan file ini.
-	Input k : compression level
+	Input percentage : compression level
 	belum rapi sih.
 	"""
 	#Membuka file dan dijadikan bentuk matriks
 	img = Image.open(filename)
 	img_mat = np.asarray(img)
+	#convert presentase input menjadi k
+	k = int(math.ceil(percentage_convert(img, percentage)))
+
 	#setiap channel warna dipisahkan (rgb). Pada img_mat, matriksnya adalah 3 dimensi dan pada dimensi ketiganya, indeks 0-2 adalah r,g,b
 	mat_r = img_mat[:,:,0]
 	mat_g = img_mat[:,:,1]
@@ -44,5 +51,3 @@ def img_compress(filename,k):
 	#Saving pic
 	compressed_image = Image.fromarray(img_reconstruct.astype(np.uint8))
 	compressed_image.save("compressed.jpg")
-
-	return ((k * (img.size[0]+img.size[1])) / (img.size[0]*img.size[1])) * 100 * 3
