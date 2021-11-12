@@ -11,4 +11,4 @@ def about():
 
 from image_compress import *
 
-img_compress("tes.jpg",50)
+img_compress("mbakjis.jpg",50)

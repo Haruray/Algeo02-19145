@@ -2,18 +2,17 @@ from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
 import math
+from svd import*
 
 def compress_svd(img_mat,k):
 	#BAGIAN YANG DIKOMENTARI DIGANTI DENGAN ALGORITMA BUATAN SENDIRI
 	#Untuk testing, silahkan uncomment baris kode di bawah ini.
-	"""
-	U,Sigma,Vt = np.linalg.svd(img_mat,full_matrices=False)
+	U,Sigma,Vt = svdmethod(img_mat)
 	reconst_mat = np.dot(U[:,:k], np.dot(np.diag(Sigma[:k]), Vt[:k,:]))
-	"""
 	return reconst_mat
 
 def percentage_convert(image, percentage):
-	return (percentage * (image.size[0]*image.size[1])) / (300 * (image.size[0] + image.size[1]))
+	return (percentage * (image.size[0]*image.size[1])) / (100 * (image.size[0] + image.size[1]))
 
 def img_compress(filename,percentage):
 	"""
@@ -25,7 +24,7 @@ def img_compress(filename,percentage):
 	"""
 	#Membuka file dan dijadikan bentuk matriks
 	img = Image.open(filename)
-	img_mat = np.asarray(img)
+	img_mat = np.asarray(img).astype(float)
 	#convert presentase input menjadi k
 	k = int(math.ceil(percentage_convert(img, percentage)))
 
