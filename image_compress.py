@@ -6,10 +6,10 @@ import math
 def compress_svd(img_mat,k):
 	#BAGIAN YANG DIKOMENTARI DIGANTI DENGAN ALGORITMA BUATAN SENDIRI
 	#Untuk testing, silahkan uncomment baris kode di bawah ini.
-	"""
+	
 	U,Sigma,Vt = np.linalg.svd(img_mat,full_matrices=False)
 	reconst_mat = np.dot(U[:,:k], np.dot(np.diag(Sigma[:k]), Vt[:k,:]))
-	"""
+	
 	return reconst_mat
 
 def percentage_convert(image, percentage):
