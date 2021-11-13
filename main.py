@@ -11,4 +11,8 @@ def about():
 
 from image_compress import *
 
+<<<<<<< HEAD
 img_compress("src/static/uploads/sana.jpg",50)
+=======
+img_compress("mbakjis.jpg",50)
+>>>>>>> d7778cdda4bc8958e6479b032288d94977e51915
