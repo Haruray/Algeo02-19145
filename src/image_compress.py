@@ -2,20 +2,14 @@ from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
 import math
+import time
 from svd import*
 
 def compress_svd(img_mat,k):
 	#BAGIAN YANG DIKOMENTARI DIGANTI DENGAN ALGORITMA BUATAN SENDIRI
 	#Untuk testing, silahkan uncomment baris kode di bawah ini.
-<<<<<<< HEAD
-	
-	U,Sigma,Vt = np.linalg.svd(img_mat,full_matrices=False)
-	reconst_mat = np.dot(U[:,:k], np.dot(np.diag(Sigma[:k]), Vt[:k,:]))
-	
-=======
 	U,Sigma,Vt = svdmethod(img_mat)
 	reconst_mat = np.dot(U[:,:k], np.dot(np.diag(Sigma[:k]), Vt[:k,:]))
->>>>>>> d7778cdda4bc8958e6479b032288d94977e51915
 	return reconst_mat
 
 def percentage_convert(image, percentage):
@@ -28,9 +22,13 @@ def img_compress(filename,percentage):
 	directory yang sama dengan file ini.
 	Input percentage : compression level
 	belum rapi sih.
+
+	RETURNS TIME
 	"""
+	#start timer
+	start = time.time()
 	#Membuka file dan dijadikan bentuk matriks
-	img = Image.open(filename)
+	img = Image.open('static/uploads/'+filename)
 	img_mat = np.asarray(img).astype(float)
 	#convert presentase input menjadi k
 	k = int(math.ceil(percentage_convert(img, percentage)))
@@ -51,9 +49,25 @@ def img_compress(filename,percentage):
 	for i in range(3):
 		img_reconstruct[:,:,i] = mat_compressed[i]
 
-	#Ini untuk menunjukkan gambarnya saja buat testing. Nanti dihapus.
-	plt.imshow(img_reconstruct.astype(np.uint8))
-	plt.show()
+	#end timer
+	end = time.time()
 	#Saving pic
 	compressed_image = Image.fromarray(img_reconstruct.astype(np.uint8))
-	compressed_image.save("compressed.jpg")
+	compressed_image.save('static/compressed/'+modify_file_name(filename))
+
+	return (round(end-start,2))
+
+def modify_file_name(filename):
+	#tanpa extension
+	filename_new=""
+	extension = ""
+	getting_extension=False
+	for i in filename:
+		if (i!="." and not getting_extension):
+			filename_new+=i
+		elif (i=="."):
+			getting_extension=True
+			extension+=i
+		elif (getting_extension):
+			extension+=i
+	return filename_new+"-compressed"+extension

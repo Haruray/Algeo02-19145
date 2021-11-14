@@ -2,6 +2,7 @@ from flask import Flask, flash, request, redirect, url_for, render_template
 import urllib.request
 import os
 from werkzeug.utils import secure_filename
+from image_compress import *
  
 app = Flask(__name__)
  
@@ -33,9 +34,10 @@ def upload_image():
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        runtime = img_compress(filename, 50)
         #print('upload_image filename: ' + filename)
         flash('Gambar berhasil diupload! berikut hasilnya')
-        return render_template('index.html', filename=filename)
+        return render_template('index.html', filename=filename, runtime=runtime)
     else:
         flash('Allowed image types are - jpg, jpeg')
         return redirect(request.url)
@@ -44,6 +46,11 @@ def upload_image():
 def display_image(filename):
     #print('display_image filename: ' + filename)
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
+
+@app.route('/display/compressed/<filename>')
+def display_image_compressed(filename):
+    #print('display_image filename: ' + filename)
+    return redirect(url_for('static', filename='compressed/' + modify_file_name(filename)), code=301)
  
 if __name__ == "__main__":
     app.run()

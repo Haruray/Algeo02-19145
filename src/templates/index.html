@@ -24,6 +24,8 @@
     {% if filename %}
         <div>
             <img src="{{ url_for('display_image', filename=filename) }}">
+            <img src="{{ url_for('display_image_compressed', filename=filename) }}">
+            <p>Image compression time : {{runtime}} seconds</p>
         </div>
     {% endif %}
     <form method="post" action="/" enctype="multipart/form-data">
