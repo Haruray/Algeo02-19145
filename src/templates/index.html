@@ -55,14 +55,14 @@
                 
                 <div class="imgresult">
                     <h2>After</h2>
-                        <img style="width:300px;height:200px;" src="{{ url_for('display_image', filename=filename) }}">
+                        <img style="width:300px;height:200px;" src="{{ url_for('display_image_compressed', filename=filename) }}">
                     
                 </div>
             </div>
             <div class="rate-info">
                 <div>
-                    <p>Image pixel difference percentage: 50%</p>
-                    <p>Image compression time 0.5 seconds</p>
+                    <p>Image pixel difference percentage: {{pxldiff}}%</p>
+                    <p>Image compression time : {{runtime}} seconds</p>
                 </div>
                 <a href="{{ url_for('display_image_compressed', filename=filename) }}" download>Download di sini</a>
             </div>

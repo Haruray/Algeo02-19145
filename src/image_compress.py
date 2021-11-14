@@ -57,6 +57,14 @@ def img_compress(filename,percentage):
 
 	return (round(end-start,2))
 
+def find_pixeldiff(filename,percentage):
+	img = Image.open('static/uploads/'+filename)
+	m = img.size[0]
+	n = img.size[1]
+	k = int(math.ceil(percentage_convert(img, percentage)))
+	pxdiff = ((m*k + k + k*n) / m*n) * 100
+	return pxdiff
+
 def modify_file_name(filename):
 	#tanpa extension
 	filename_new=""
