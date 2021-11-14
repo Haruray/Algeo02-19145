@@ -64,7 +64,7 @@
                     <p>Image pixel difference percentage: 50%</p>
                     <p>Image compression time 0.5 seconds</p>
                 </div>
-                <button type="button">Download</button>
+                <a href="{{ url_for('display_image_compressed', filename=filename) }}" download>Download di sini</a>
             </div>
             {% endif %}
         </div>
