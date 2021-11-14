@@ -7,38 +7,75 @@
     </head>
     <body>
         <p style="text-decoration: underline;"><h1 align="center"><u>Image Compression</u></h1></p>
-<div class="container">
-<div class="row">
-    <h2>Select a file to upload</h2>
-    <p>
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <ul>
-            {% for message in messages %}
-              <li>{{ message }}</li>
-            {% endfor %}
-            </ul>
-          {% endif %}
-        {% endwith %}
-    </p>
-    {% if filename %}
-        <div>
-            <img src="{{ url_for('display_image', filename=filename) }}">
-            <img src="{{ url_for('display_image_compressed', filename=filename) }}">
-            <p>Image compression time : {{runtime}} seconds</p>
+        <div class="container">
+            <h1 class="title">Image Compression</h1>
+            <div class="file-uploader">
+                <h2>Select an image to upload</h2>
+                <p>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul>
+                        {% for message in messages %}
+                        <li>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {% endwith %}
+                </p>
+
+                <form method="post" action="/" enctype="multipart/form-data">
+                    <dl>
+                        <p>
+                            <input type="file" name="file" autocomplete="off" required>
+                        </p>
+                    </dl>
+                    <label for="compressRate">Image Compression Rate: </label><br>
+                    <div class="slider">
+
+
+                        <input type="text" id="compressRate" name="compressRate" size="1" maxLength="3">
+                        <p>%</p>
+
+                    </div>
+                        <input type="range" class="slider" min="1" max="100" value="50" id="slider">
+                    <p>
+                        <input type="submit" value="Submit">
+                    </p>
+                </form>
+            </div>
+            {% if filename %}
+            <div class="image-box">
+                
+                <div class="imgresult">
+                    <h2>Before</h2>
+                    
+                        <img style="width:300px;height:200px;" src="{{ url_for('display_image', filename=filename) }}">
+                        
+                </div>
+                
+                <div class="imgresult">
+                    <h2>After</h2>
+                        <img style="width:300px;height:200px;" src="{{ url_for('display_image', filename=filename) }}">
+                    
+                </div>
+            </div>
+            <div class="rate-info">
+                <div>
+                    <p>Image pixel difference percentage: 50%</p>
+                    <p>Image compression time 0.5 seconds</p>
+                </div>
+                <button type="button">Download</button>
+            </div>
+            {% endif %}
         </div>
-    {% endif %}
-    <form method="post" action="/" enctype="multipart/form-data">
-        <dl>
-            <p>
-                <input type="file" name="file" class="form-control" autocomplete="off" required>
-            </p>
-        </dl>
-        <p>
-            <input type="submit" value="Submit" class="btn btn-info">
-        </p>
-    </form>
-</div>
-</div>
-</body>
+    </body>
+    
+    <script type="text/javascript">
+        var rateSlider = document.getElementById("slider");
+        var inputSlider = document.getElementById("compressRate");
+        inputSlider.value = rateSlider.value;
+        rateSlider.oninput = function() {
+            inputSlider.value = this.value;
+        }
+    </script>
 </html>

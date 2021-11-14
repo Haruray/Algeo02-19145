@@ -11,5 +11,9 @@ def about():
 
 from image_compress import *
 
+<<<<<<< Updated upstream:src/main.py
 #img_compress("mbakjis.jpg",50)
 print(modify_file_name("mbakjis.jpg"))
+=======
+img_compress("download.jpg",50)
+>>>>>>> Stashed changes:main.py
