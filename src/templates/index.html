@@ -1,17 +1,16 @@
 <html>
     <head>
         <title>Ozymandias geming</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />        
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">            
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <script src="{{url_for('static', filename='app.js')}}"></script>
     </head>
     <body>
-        <p style="text-decoration: underline;"><h1 align="center"><u>Image Compression</u></h1></p>
         <div class="container">
-            <h1 class="title">Image Compression</h1>
+            <h1 class="title"><p class="p2"> <<<<< Image Compression >>>>></p></h1>
             <div class="file-uploader">
-                <h2>Select an image to upload</h2>
-                <p>
+                <h2 class="p2"><u>Select an image to upload</u></h2>
+                <p class="p2">
                     {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         <ul>
@@ -25,20 +24,20 @@
 
                 <form method="post" action="/" enctype="multipart/form-data">
                     <dl>
-                        <p>
+                        <p class="p2">
                             <input type="file" name="file" autocomplete="off" required>
                         </p>
                     </dl>
-                    <label for="compressRate">Image Compression Rate: </label><br>
+                    <label for="compressRate" class="p2">Image Compression Rate: </label><br>
                     <div class="slider">
 
 
                         <input type="text" id="compressRate" name="compressRate" size="1" maxLength="3">
-                        <p>%</p>
+                        <p class="p2">%</p>
 
                     </div>
                         <input type="range" class="slider" min="1" max="100" value="50" id="slider">
-                    <p>
+                    <p class="p2">
                         <input type="submit" value="Submit">
                     </p>
                 </form>
@@ -47,24 +46,25 @@
             <div class="image-box">
                 
                 <div class="imgresult">
-                    <h2>Before</h2>
+                    <h2 class="p2">Before</h2>
                     
                         <img style="width:300px;height:200px;" src="{{ url_for('display_image', filename=filename) }}">
-                        
+                    
+                    <h2></h2>
                 </div>
                 
                 <div class="imgresult">
-                    <h2>After</h2>
+                    <h2 class="p2">After</h2>
                         <img style="width:300px;height:200px;" src="{{ url_for('display_image', filename=filename) }}">
-                    
+                    <h2></h2>
                 </div>
             </div>
             <div class="rate-info">
                 <div>
-                    <p>Image pixel difference percentage: 50%</p>
-                    <p>Image compression time 0.5 seconds</p>
+                    <p class="p2"> Image pixel difference percentage: 50%</p>
+                    <p class="p2"> Image compression time 0.5 seconds</p>
                 </div>
-                <button type="button">Download</button>
+                <a href="{{ url_for('display_image_compressed', filename=filename) }}" download><p class="p2"> Download di sini</p></a>
             </div>
             {% endif %}
         </div>
