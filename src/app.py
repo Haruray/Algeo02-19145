@@ -6,10 +6,11 @@ from image_compress import *
  
 app = Flask(__name__)
  
-UPLOAD_FOLDER = 'static/uploads/'
- 
+UPLOADS = 'static/uploads/'
+COMPRESSED = 'static/compressed/' 
 app.secret_key = "secret key"
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['COMPRESSED'] = COMPRESSED
+app.config['UPLOADS'] = UPLOADS
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
  
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg'])
@@ -33,11 +34,15 @@ def upload_image():
         return redirect(request.url)
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        file.save(os.path.join(app.config['UPLOADS'], filename))
         percentage = int(request.form['compressRate'])
         runtime = img_compress(filename, percentage)
-        pxldiff = find_pixeldiff(filename, percentage)
-        #print('upload_image filename: ' + filename)
+        beforename = f'{UPLOADS}{filename}'
+        save = modify_file_name(filename)
+        savename = f'{COMPRESSED}{save}'
+        before = os.path.getsize(beforename)
+        after = os.path.getsize(savename)
+        pxldiff = str(round((after/before)*100))
         flash('Gambar berhasil diupload! berikut hasilnya')
         return render_template('index.html', filename=filename, runtime=runtime, pxldiff=pxldiff)
     else:
