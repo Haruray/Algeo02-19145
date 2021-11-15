@@ -34,10 +34,12 @@ def upload_image():
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        runtime = img_compress(filename, 50)
+        percentage = int(request.form['compressRate'])
+        runtime = img_compress(filename, percentage)
+        pxldiff = find_pixeldiff(filename, percentage)
         #print('upload_image filename: ' + filename)
         flash('Gambar berhasil diupload! berikut hasilnya')
-        return render_template('index.html', filename=filename, runtime=runtime)
+        return render_template('index.html', filename=filename, runtime=runtime, pxldiff=pxldiff)
     else:
         flash('Allowed image types are - jpg, jpeg')
         return redirect(request.url)
