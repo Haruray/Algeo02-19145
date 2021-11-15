@@ -21,8 +21,6 @@ prerequisite: python, numpy, PIL, flask
 berikut langkah-langkah menggunakan program:
 - clone repository ini
 - buka terminal, arahkan ke directory folder src
-- py -3 -m venv .venv
-- .venv\scripts\activate
 - ketik 'set FLASK_APP=app' (tanpa petik)
 - ketik 'flask run' (tanpa petik)
 - local host akan terbuka pada default browser
